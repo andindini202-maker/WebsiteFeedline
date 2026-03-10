@@ -1,0 +1,846 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Feedline Studio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+/* ======================
+BACKGROUND
+====================== */
+
+body{
+
+background:
+radial-gradient(circle at 10% 20%, rgba(180,180,190,0.25), transparent 30%),
+radial-gradient(circle at 90% 10%, rgba(160,160,170,0.25), transparent 30%),
+linear-gradient(180deg,#f5f5f6,#e9eaed,#f6f7f9);
+
+color:#2f2f2f;
+
+overflow-x:hidden;
+
+}
+
+/* DARK MODE */
+
+.dark{
+
+background:#1e1e1e;
+color:white;
+
+}
+
+.dark header{
+
+background:rgba(20,20,20,0.9);
+
+}
+
+.dark .card{
+
+background:#2a2a2a;
+color:white;
+
+}
+
+.dark input,.dark select{
+
+background:#333;
+color:white;
+border:1px solid #444;
+
+}
+
+/* ======================
+LOADER
+====================== */
+
+#loader{
+
+position:fixed;
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:white;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+z-index:9999;
+
+}
+
+.spinner{
+
+width:40px;
+height:40px;
+
+border:4px solid #ddd;
+border-top:4px solid #333;
+
+border-radius:50%;
+
+animation:spin 1s linear infinite;
+
+}
+
+@keyframes spin{
+
+100%{transform:rotate(360deg)}
+
+}
+
+/* ======================
+PROGRESS BAR
+====================== */
+
+#progressBar{
+
+position:fixed;
+top:0;
+left:0;
+
+height:4px;
+width:0%;
+
+background:linear-gradient(90deg,#777,#111);
+
+z-index:2000;
+
+}
+
+/* ======================
+NAVBAR
+====================== */
+
+header{
+
+position:fixed;
+top:0;
+left:0;
+width:100%;
+
+background:rgba(255,255,255,0.7);
+
+backdrop-filter:blur(14px);
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+padding:18px 8%;
+
+z-index:1000;
+
+box-shadow:0 8px 30px rgba(0,0,0,0.05);
+
+}
+
+.logo{
+
+font-weight:700;
+font-size:20px;
+
+}
+
+nav{
+
+display:flex;
+gap:25px;
+
+}
+
+nav a{
+
+text-decoration:none;
+color:#555;
+font-weight:500;
+transition:0.3s;
+
+}
+
+nav a:hover{
+
+color:#000;
+
+}
+
+.darkbtn{
+
+border:none;
+background:#eee;
+
+padding:8px 12px;
+
+border-radius:8px;
+
+cursor:pointer;
+
+}
+
+/* ======================
+HERO
+====================== */
+
+.hero{
+
+height:100vh;
+
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+
+text-align:center;
+
+padding:0 10%;
+
+}
+
+.hero h1{
+
+font-size:48px;
+max-width:750px;
+
+}
+
+.hero p{
+
+margin-top:20px;
+color:#666;
+font-size:18px;
+max-width:550px;
+
+}
+
+/* BUTTON */
+
+.btn{
+
+margin-top:25px;
+
+padding:14px 36px;
+
+border:none;
+
+border-radius:40px;
+
+background:linear-gradient(135deg,#6b7280,#111);
+
+color:white;
+
+cursor:pointer;
+
+font-weight:500;
+
+transition:0.4s;
+
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+
+}
+
+.btn:hover{
+
+transform:translateY(-4px);
+
+box-shadow:0 15px 40px rgba(0,0,0,0.3);
+
+}
+
+/* ======================
+SECTION
+====================== */
+
+section{
+
+padding:110px 8%;
+
+}
+
+section h2{
+
+text-align:center;
+font-size:32px;
+margin-bottom:60px;
+
+}
+
+/* ======================
+GRID PRODUK
+====================== */
+
+.grid{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+gap:30px;
+
+}
+
+.card{
+
+background:white;
+
+border-radius:20px;
+
+overflow:hidden;
+
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+
+transition:0.4s;
+
+opacity:0;
+transform:translateY(40px);
+
+}
+
+.card.show{
+
+opacity:1;
+transform:translateY(0);
+
+}
+
+.card:hover{
+
+transform:translateY(-10px);
+
+box-shadow:0 20px 50px rgba(0,0,0,0.15);
+
+}
+
+.card img{
+
+width:100%;
+
+}
+
+.card-content{
+
+padding:22px;
+
+}
+
+.price{
+
+margin:10px 0;
+font-weight:600;
+
+}
+
+/* ======================
+STATS
+====================== */
+
+.stats{
+
+display:flex;
+justify-content:center;
+gap:80px;
+
+flex-wrap:wrap;
+
+text-align:center;
+
+}
+
+.stat h3{
+
+font-size:42px;
+
+}
+
+/* ======================
+TESTIMONI
+====================== */
+
+.testimoni{
+
+max-width:650px;
+margin:auto;
+
+background:white;
+
+padding:40px;
+
+border-radius:20px;
+
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+
+text-align:center;
+
+font-style:italic;
+
+}
+
+/* ======================
+FORM
+====================== */
+
+form{
+
+max-width:500px;
+
+margin:auto;
+
+display:flex;
+flex-direction:column;
+
+gap:15px;
+
+}
+
+input,select{
+
+padding:14px;
+
+border-radius:10px;
+
+border:1px solid #ddd;
+
+}
+
+/* ======================
+BACK TO TOP
+====================== */
+
+#topBtn{
+
+position:fixed;
+
+bottom:90px;
+right:30px;
+
+padding:12px 16px;
+
+border:none;
+
+border-radius:50%;
+
+background:#333;
+
+color:white;
+
+font-size:18px;
+
+cursor:pointer;
+
+display:none;
+
+}
+
+/* ======================
+WHATSAPP FLOAT
+====================== */
+
+.wa{
+
+position:fixed;
+
+bottom:25px;
+right:25px;
+
+background:#25D366;
+
+width:55px;
+height:55px;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+border-radius:50%;
+
+font-size:26px;
+
+color:white;
+
+text-decoration:none;
+
+}
+
+/* ======================
+FOOTER
+====================== */
+
+footer{
+
+background:#111;
+
+color:#aaa;
+
+padding:50px 8%;
+
+margin-top:80px;
+
+}
+
+.footer-grid{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+
+gap:30px;
+
+}
+
+footer h4{
+
+color:white;
+margin-bottom:10px;
+
+}
+
+.copyright{
+
+text-align:center;
+
+margin-top:40px;
+
+font-size:13px;
+
+color:#777;
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="loader">
+<div class="spinner"></div>
+</div>
+
+<div id="progressBar"></div>
+
+<header>
+
+<div class="logo">Feedline Studio</div>
+
+<nav>
+
+<a href="#produk">Template</a>
+<a href="#stats">Keunggulan</a>
+<a href="#testimoni">Testimoni</a>
+<a href="#order">Order</a>
+
+<button onclick="toggleDark()" class="darkbtn">🌙</button>
+
+</nav>
+
+</header>
+
+<section class="hero">
+
+<h1>Upgrade Tampilan Instagram Jadi Lebih Profesional</h1>
+
+<p>Template feed Instagram minimalis, clean, dan 100% editable di Canva.</p>
+
+<a href="#produk">
+<button class="btn">Lihat Template</button>
+</a>
+
+</section>
+
+<section id="produk">
+
+<h2>Koleksi Template</h2>
+
+<div class="grid">
+
+<div class="card">
+<img src="images/umkm.jpg">
+<div class="card-content">
+<h3>Template UMKM</h3>
+<p class="price">Rp35.000</p>
+<button class="btn">Beli</button>
+</div>
+</div>
+
+<div class="card">
+<img src="images/skincare.jpg">
+<div class="card-content">
+<h3>Template Skincare</h3>
+<p class="price">Rp45.000</p>
+<button class="btn">Beli</button>
+</div>
+</div>
+
+<div class="card">
+<img src="images/personalbranding.jpg">
+<div class="card-content">
+<h3>Personal Branding</h3>
+<p class="price">Rp40.000</p>
+<button class="btn">Beli</button>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<section id="stats">
+
+<h2>Kenapa Pilih Kami?</h2>
+
+<div class="stats">
+
+<div class="stat">
+<h3>180+</h3>
+<p>Customer</p>
+</div>
+
+<div class="stat">
+<h3>500+</h3>
+<p>Template Terjual</p>
+</div>
+
+<div class="stat">
+<h3>3+</h3>
+<p>Tahun Pengalaman</p>
+</div>
+
+</div>
+
+</section>
+
+<section id="testimoni">
+
+<h2>Testimoni</h2>
+
+<div class="testimoni">
+
+<p id="testi">
+"Feed jadi lebih profesional dan engagement meningkat!"
+</p>
+
+</div>
+
+</section>
+
+<section id="order">
+
+<h2>Form Order</h2>
+
+<form onsubmit="return orderWA()">
+
+<input type="text" id="nama" placeholder="Nama">
+
+<input type="text" id="wa" placeholder="Nomor WhatsApp">
+
+<select id="template">
+
+<option>Template UMKM</option>
+<option>Template Skincare</option>
+<option>Personal Branding</option>
+
+</select>
+
+<button class="btn">Kirim Pesanan</button>
+
+</form>
+
+</section>
+
+<button id="topBtn">↑</button>
+
+<a href="https://wa.me/6287857493537" class="wa">💬</a>
+
+<footer>
+
+<div class="footer-grid">
+
+<div>
+
+<h4>Feedline Studio</h4>
+<p>Template feed Instagram profesional untuk UMKM dan personal branding.</p>
+
+</div>
+
+<div>
+
+<h4>Menu</h4>
+<p>Template</p>
+<p>Testimoni</p>
+<p>Order</p>
+
+</div>
+
+<div>
+
+<h4>Kontak</h4>
+<p>WhatsApp</p>
+<p>Instagram</p>
+
+</div>
+
+</div>
+
+<div class="copyright">
+
+© 2026 Feedline Studio
+
+</div>
+
+</footer>
+
+<script>
+
+/* LOADER */
+
+window.addEventListener("load",()=>{
+
+document.getElementById("loader").style.display="none";
+
+});
+
+/* PROGRESS BAR */
+
+window.addEventListener("scroll",()=>{
+
+let scrollTop=document.documentElement.scrollTop;
+
+let height=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+
+let progress=(scrollTop/height)*100;
+
+document.getElementById("progressBar").style.width=progress+"%";
+
+});
+
+/* BACK TO TOP */
+
+const topBtn=document.getElementById("topBtn");
+
+window.addEventListener("scroll",()=>{
+
+if(window.scrollY>400){
+
+topBtn.style.display="block";
+
+}else{
+
+topBtn.style.display="none";
+
+}
+
+});
+
+topBtn.onclick=()=>{
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+};
+
+/* DARK MODE */
+
+function toggleDark(){
+
+document.body.classList.toggle("dark");
+
+}
+
+/* SCROLL CARD ANIMATION */
+
+const cards=document.querySelectorAll(".card");
+
+window.addEventListener("scroll",()=>{
+
+const trigger=window.innerHeight*0.85;
+
+cards.forEach(card=>{
+
+if(card.getBoundingClientRect().top<trigger){
+
+card.classList.add("show");
+
+}
+
+});
+
+});
+
+/* TESTIMONI SLIDER */
+
+const testi=[
+
+"Feed jadi lebih profesional dan engagement meningkat!",
+"Template sangat mudah diedit di Canva!",
+"Desain clean cocok untuk UMKM!"
+
+];
+
+let i=0;
+
+setInterval(()=>{
+
+i=(i+1)%testi.length;
+
+document.getElementById("testi").innerText=testi[i];
+
+},4000);
+
+/* ORDER FORM */
+
+function orderWA(){
+
+let nama=document.getElementById("nama").value;
+let wa=document.getElementById("wa").value;
+let template=document.getElementById("template").value;
+
+if(nama==""||wa==""){
+
+alert("Mohon isi semua data!");
+
+return false;
+
+}
+
+let admin="6287857493537";
+
+let text=`Halo Admin Feedline Studio
+
+Nama: ${nama}
+Nomor WA: ${wa}
+Pesan Template: ${template}`;
+
+window.open(`https://wa.me/${admin}?text=${encodeURIComponent(text)}`);
+
+return false;
+
+}
+
+</script>
+
+</body>
+</html>
+```
